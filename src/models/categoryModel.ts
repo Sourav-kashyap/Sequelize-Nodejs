@@ -17,8 +17,5 @@ export const Category = sequelize.define(
   },
   {
     freezeTableName: true,
-    timestamps: false,
-    createdAt: true,
-    updatedAt:true,
   }
 );

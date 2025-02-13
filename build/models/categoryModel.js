@@ -16,7 +16,4 @@ exports.Category = db_1.sequelize.define("Category", {
     }
 }, {
     freezeTableName: true,
-    timestamps: false,
-    createdAt: true,
-    updatedAt: true,
 });

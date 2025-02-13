@@ -1,9 +1,12 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-import { dbConnect } from "./db/db";
-import { Book } from "./models/bookModel";
-import { Author } from "./models/authorModel";
-import { Category } from "./models/categoryModel";
+
+
+// import { Book } from "./models/bookModel";
+// import { Author } from "./models/authorModel";
+// import { Category } from "./models/categoryModel";
+
+import { dbConnect, sequelize} from "./db/db";
 
 dotenv.config();
 
@@ -16,11 +19,24 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Home:");
 });
 
-Book.sync();
-Author.sync();
-Category.sync({force: true});
+// Book.sync();
+// Author.sync();
+// Category.sync();
 
-app.listen(PORT, () => {
-  console.log(`Server running on port is ${PORT}`);
-  dbConnect();
+(async () => {
+  try {
+    await sequelize.sync({ force: true });
+    console.log("Database synchronized successfully.");
+  } catch (error) {
+    console.error("Error synchronizing the database:", error);
+  }
+})();
+
+app.listen(PORT, async () => {
+  try {
+    console.log(`Server running on port is ${PORT}`);
+    await dbConnect();
+  } catch (error) {
+    console.error("Error starting server:", error);
+  }
 });
