@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteAuthor = exports.updateAuthor = exports.createAuthor = exports.getAllAuthor = void 0;
+const getAllAuthor = (req, res) => { };
+exports.getAllAuthor = getAllAuthor;
+const createAuthor = (req, res) => { };
+exports.createAuthor = createAuthor;
+const updateAuthor = (req, res) => { };
+exports.updateAuthor = updateAuthor;
+const deleteAuthor = (req, res) => { };
+exports.deleteAuthor = deleteAuthor;

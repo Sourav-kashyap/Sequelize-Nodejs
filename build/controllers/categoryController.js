@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteCategory = exports.updateCategory = exports.createCategory = exports.getAllCategory = void 0;
+const getAllCategory = (req, res) => { };
+exports.getAllCategory = getAllCategory;
+const createCategory = (req, res) => { };
+exports.createCategory = createCategory;
+const updateCategory = (req, res) => { };
+exports.updateCategory = updateCategory;
+const deleteCategory = (req, res) => { };
+exports.deleteCategory = deleteCategory;

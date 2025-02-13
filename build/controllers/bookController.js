@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteBook = exports.updateBook = exports.createBook = exports.getAllBook = void 0;
+const getAllBook = (req, res) => { };
+exports.getAllBook = getAllBook;
+const createBook = (req, res) => { };
+exports.createBook = createBook;
+const updateBook = (req, res) => { };
+exports.updateBook = updateBook;
+const deleteBook = (req, res) => { };
+exports.deleteBook = deleteBook;
