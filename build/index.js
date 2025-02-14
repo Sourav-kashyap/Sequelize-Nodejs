@@ -17,8 +17,8 @@ const app = (0, express_1.default)();
 const PORT = Number(process.env.PORT) || 8088;
 app.use(express_1.default.json());
 app.use("/api/v1/book", bookRoute_1.default);
-app.use("api/v1/author", authorRoute_1.default);
-app.use("api/v1/category", categoryRoute_1.default);
+app.use("/api/v1/author", authorRoute_1.default);
+app.use("/api/v1/category", categoryRoute_1.default);
 app.get("/", (req, res) => {
     res.send("Home:");
 });
@@ -26,13 +26,7 @@ app.get("/", (req, res) => {
 // Author.sync();
 // Category.sync();
 (async () => {
-    try {
-        await db_1.sequelize.sync({ force: false });
-        console.log("Database synchronized successfully.");
-    }
-    catch (error) {
-        console.error("Error synchronizing the database:", error);
-    }
+    await db_1.sequelize.sync({ force: false }).then(() => console.log("Database synchronized successfully.")).catch((error) => console.error("Error synchronizing the database:", error));
 })();
 app.listen(PORT, async () => {
     try {

@@ -4,16 +4,17 @@ import { sequelize } from "../db/db";
 export const Category = sequelize.define(
   "Category",
   {
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
     },
-    isbn: {
-        type: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
-    price: {
-        type: DataTypes.DECIMAL,
-    }
   },
   {
     freezeTableName: true,

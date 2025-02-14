@@ -4,12 +4,14 @@ import {
   createAuthor,
   deleteAuthor,
   updateAuthor,
+  getAuthorById
 } from "../controllers/authorController";
 const router = express.Router();
 
-router.get("/getAllBook", getAllAuthor);
-router.get("/createBook", createAuthor);
-router.get("/updateBook/:id", updateAuthor);
-router.get("/deleteBook/:id", deleteAuthor);
+router.get("/getAllAuthor", getAllAuthor);
+router.get("getAuthor/:id",getAuthorById);
+router.post("/createAuthor", createAuthor);
+router.patch("/updateAuthor/:id", updateAuthor);
+router.delete("/deleteAuthor/:id", deleteAuthor);
 
 export default router;

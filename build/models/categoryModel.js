@@ -4,16 +4,17 @@ exports.Category = void 0;
 const sequelize_1 = require("sequelize");
 const db_1 = require("../db/db");
 exports.Category = db_1.sequelize.define("Category", {
-    title: {
-        type: sequelize_1.DataTypes.STRING,
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
         allowNull: false,
     },
-    isbn: {
-        type: sequelize_1.DataTypes.INTEGER,
+    name: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        unique: true,
     },
-    price: {
-        type: sequelize_1.DataTypes.DECIMAL,
-    }
 }, {
     freezeTableName: true,
 });
