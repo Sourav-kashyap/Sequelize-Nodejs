@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getAllBook,
+  getAllBooks,
   createBook,
   updateBook,
   deleteBook,
@@ -8,7 +8,7 @@ import {
 } from "../controllers/bookController";
 const router = express.Router();
 
-router.get("/getAllBook", getAllBook);
+router.get("/getAllBooks", getAllBooks);
 router.post("/createBook", createBook);
 router.get("/getBook/:id", getBookById);
 router.patch("/updateBook/:id", updateBook);
