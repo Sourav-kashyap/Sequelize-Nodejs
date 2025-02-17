@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.get("/getAllAuthor", getAllAuthor);
-router.get("getAuthor/:id",getAuthorById);
+router.get("/getAuthorById/:id",getAuthorById);
 router.post("/createAuthor", createAuthor);
 router.patch("/updateAuthor/:id", updateAuthor);
 router.delete("/deleteAuthor/:id", deleteAuthor);

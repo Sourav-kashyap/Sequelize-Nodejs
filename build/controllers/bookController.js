@@ -8,9 +8,7 @@ const getAllBooks = async (req, res) => {
     try {
         const books = await bookModel_1.Book.findAll();
         if (!books) {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 message: "Books not found in the DB",
             });
             return;
@@ -18,7 +16,7 @@ const getAllBooks = async (req, res) => {
         res.status(200).json(books);
     }
     catch (error) {
-        res.status(500).json({ message: "Error while fetching all books", error });
+        res.status(500).json({ message: "Error while fetching all Books", error });
     }
 };
 exports.getAllBooks = getAllBooks;
@@ -26,13 +24,11 @@ const getBookById = async (req, res) => {
     try {
         const bookId = req.params.id;
         if (!bookId) {
-            res.status(400).json({ message: "invalid book id" });
+            res.status(400).json({ message: "invalid Book id" });
         }
         const book = await bookModel_1.Book.findByPk(bookId);
         if (!book) {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 message: "Book not found",
             });
             return;
@@ -40,7 +36,7 @@ const getBookById = async (req, res) => {
         res.status(200).json(book);
     }
     catch (error) {
-        res.status(500).json({ message: 'Error fetching book', error });
+        res.status(500).json({ message: "Error fetching Book", error });
     }
 };
 exports.getBookById = getBookById;
@@ -52,18 +48,14 @@ const createBook = async (req, res) => {
         }
         const author = await authorModel_1.Author.findOne({ where: { id: authorId } });
         if (!author) {
-            res
-                .status(400)
-                .json({
-                message: "This author are not valid first create a new Author",
+            res.status(400).json({
+                message: "This Author are not valid first create a new Author",
             });
             return;
         }
         const category = categoryModel_1.Category.findOne({ where: { id: categoryId } });
         if (!category) {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 message: "This category are not valid first create a new Category",
             });
             return;
@@ -84,7 +76,7 @@ const updateBook = async (req, res) => {
         }
         const bookId = req.params.id;
         if (!bookId) {
-            res.status(400).json({ message: "invalid book id" });
+            res.status(400).json({ message: "invalid Book id" });
         }
         const book = await bookModel_1.Book.findByPk(bookId);
         if (!book) {
@@ -93,23 +85,25 @@ const updateBook = async (req, res) => {
         }
         const author = await authorModel_1.Author.findOne({ where: { id: authorId } });
         if (!author) {
-            res
-                .status(400)
-                .json({
-                message: "This author are not valid first create a new Author",
+            res.status(400).json({
+                message: "This Author are not valid first create a new Author",
             });
             return;
         }
         const category = categoryModel_1.Category.findOne({ where: { id: categoryId } });
         if (!category) {
-            res
-                .status(400)
-                .json({
-                message: "This category are not valid first create a new Category",
+            res.status(400).json({
+                message: "This Category are not valid first create a new Category",
             });
             return;
         }
-        const updatedBook = await book.update({ title, isbn, price, authorId, categoryId });
+        const updatedBook = await book.update({
+            title,
+            isbn,
+            price,
+            authorId,
+            categoryId,
+        });
         res.status(201).json({ message: "Book created successfully", updateBook: exports.updateBook });
     }
     catch (error) {
@@ -121,13 +115,11 @@ const deleteBook = async (req, res) => {
     try {
         const bookId = req.params.id;
         if (!bookId) {
-            res.status(400).json({ message: "invalid book id" });
+            res.status(400).json({ message: "invalid Book id" });
         }
         const book = await bookModel_1.Book.findByPk(bookId);
         if (!book) {
-            res
-                .status(400)
-                .json({
+            res.status(400).json({
                 message: "Book not found",
             });
             return;
@@ -136,7 +128,7 @@ const deleteBook = async (req, res) => {
         res.status(200).json({ message: "Book delete successfully" });
     }
     catch (error) {
-        res.status(500).json({ message: 'Error while deleting a book', error });
+        res.status(500).json({ message: "Error while deleting a Book", error });
     }
 };
 exports.deleteBook = deleteBook;

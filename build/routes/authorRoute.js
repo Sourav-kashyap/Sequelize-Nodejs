@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const authorController_1 = require("../controllers/authorController");
 const router = express_1.default.Router();
 router.get("/getAllAuthor", authorController_1.getAllAuthor);
-router.get("getAuthor/:id", authorController_1.getAuthorById);
+router.get("/getAuthorById/:id", authorController_1.getAuthorById);
 router.post("/createAuthor", authorController_1.createAuthor);
 router.patch("/updateAuthor/:id", authorController_1.updateAuthor);
 router.delete("/deleteAuthor/:id", authorController_1.deleteAuthor);
