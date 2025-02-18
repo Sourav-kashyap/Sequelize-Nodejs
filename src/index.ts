@@ -31,11 +31,12 @@ app.get("/", (req: Request, res: Response) => {
 // Category.sync();
 
 (async () => {
-    await sequelize.sync({ force: false }).then(()=>
-      console.log("Database synchronized successfully.")
-    ).catch((error)=> 
+  await sequelize
+    .sync({ force: false })
+    .then(() => console.log("Database synchronized successfully."))
+    .catch((error) =>
       console.error("Error synchronizing the database:", error)
-    )
+    );
 })();
 
 app.listen(PORT, async () => {

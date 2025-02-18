@@ -47,7 +47,13 @@ const createCategory = (req, res) => {
             res.status(400).json({ message: "All fields are required" });
         }
         const category = categoryModel_1.Category.create({ name });
-        res.status(201).json({ message: "Category created successfully", category });
+        if (!category) {
+            res.status(400).json({ mesasge: "Category not created" });
+            return;
+        }
+        res
+            .status(201)
+            .json({ message: "Category created successfully", category });
     }
     catch (error) {
         res.status(500).json({ message: "Error while creating a Book", error });

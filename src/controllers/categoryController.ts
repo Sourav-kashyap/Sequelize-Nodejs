@@ -4,6 +4,7 @@ import { Category } from "../models/categoryModel";
 export const getAllCategory = async (req: Request, res: Response) => {
   try {
     const categorys = await Category.findAll();
+
     if (!categorys) {
       res.status(400).json({
         message: "Categorys not found in the DB",
@@ -35,19 +36,30 @@ export const getCategoryById = async (req: Request, res: Response) => {
       });
       return;
     }
+
     res.status(200).json(category);
   } catch (error) {
     res.status(500).json({ message: "Error fetching Category", error });
   }
 };
+
 export const createCategory = (req: Request, res: Response) => {
   try {
     const { name } = req.body;
+
     if (!name) {
       res.status(400).json({ message: "All fields are required" });
     }
     const category = Category.create({ name });
-    res.status(201).json({ message: "Category created successfully", category });
+
+    if (!category) {
+      res.status(400).json({ mesasge: "Category not created" });
+      return;
+    }
+
+    res
+      .status(201)
+      .json({ message: "Category created successfully", category });
   } catch (error) {
     res.status(500).json({ message: "Error while creating a Book", error });
   }
@@ -99,6 +111,7 @@ export const deleteCategory = async (req: Request, res: Response) => {
       });
       return;
     }
+
     await category.destroy();
     res.status(200).json({ message: "Category delete successfully" });
   } catch (error) {

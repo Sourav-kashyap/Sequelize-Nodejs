@@ -26,7 +26,10 @@ app.get("/", (req, res) => {
 // Author.sync();
 // Category.sync();
 (async () => {
-    await db_1.sequelize.sync({ force: false }).then(() => console.log("Database synchronized successfully.")).catch((error) => console.error("Error synchronizing the database:", error));
+    await db_1.sequelize
+        .sync({ force: false })
+        .then(() => console.log("Database synchronized successfully."))
+        .catch((error) => console.error("Error synchronizing the database:", error));
 })();
 app.listen(PORT, async () => {
     try {

@@ -41,13 +41,20 @@ export const getAuthorById = async (req: Request, res: Response) => {
   }
 };
 
-export const createAuthor = (req: Request, res: Response) => {
+export const createAuthor = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
+
     if (!name) {
       res.status(400).json({ message: "All fields are required" });
     }
-    const author = Author.create({ name });
+
+    const author = await Author.create({ name });
+
+    if (!author) {
+      res.status(400).json({ message: "Author not created" });
+    }
+
     res.status(201).json({ message: "Author created successfully", author });
   } catch (error) {
     res.status(500).json({ message: "Error while creating a Author", error });
@@ -76,6 +83,12 @@ export const updateAuthor = async (req: Request, res: Response) => {
     }
 
     const updatedAuthor = await author.update({ name });
+
+    if (!updateAuthor) {
+      res.status(400).json({ mesasge: "Author not Update" });
+      return;
+    }
+
     res
       .status(201)
       .json({ message: "Author Updated successfully", updatedAuthor });

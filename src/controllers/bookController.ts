@@ -50,7 +50,9 @@ export const createBook = async (req: Request, res: Response) => {
       res.status(400).json({ message: "All fields are required" });
     }
 
-    const author = await Author.findOne({ where: { id: authorId } });
+    const author = await Author.findOne({
+      where: { id: authorId },
+    });
 
     if (!author) {
       res.status(400).json({
@@ -58,14 +60,33 @@ export const createBook = async (req: Request, res: Response) => {
       });
       return;
     }
-    const category = Category.findOne({ where: { id: categoryId } });
+
+    const category = Category.findOne({
+      where: { id: categoryId },
+    });
+
     if (!category) {
       res.status(400).json({
         message: "This category are not valid first create a new Category",
       });
       return;
     }
-    const book = Book.create({ title, isbn, price, authorId, categoryId });
+
+    const book = await Book.create({
+      title,
+      isbn,
+      price,
+      authorId,
+      categoryId,
+    });
+
+    if (!book) {
+      res.status(400).json({
+        message: "Book not created",
+      });
+      return;
+    }
+
     res.status(201).json({ message: "Book created successfully", book });
   } catch (error) {
     res.status(500).json({ message: "Error while creating a Book", error });
@@ -116,6 +137,14 @@ export const updateBook = async (req: Request, res: Response) => {
       authorId,
       categoryId,
     });
+
+    if (!updateBook) {
+      res.status(400).json({
+        message: "Book not updated",
+      });
+      return;
+    }
+
     res.status(201).json({ message: "Book created successfully", updateBook });
   } catch (error) {
     res.status(500).json({ message: "Error while updating a Book", error });
@@ -139,6 +168,7 @@ export const deleteBook = async (req: Request, res: Response) => {
       return;
     }
     await book.destroy();
+
     res.status(200).json({ message: "Book delete successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error while deleting a Book", error });

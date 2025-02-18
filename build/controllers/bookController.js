@@ -46,21 +46,37 @@ const createBook = async (req, res) => {
         if (!title || !isbn || !price || !authorId || !categoryId) {
             res.status(400).json({ message: "All fields are required" });
         }
-        const author = await authorModel_1.Author.findOne({ where: { id: authorId } });
+        const author = await authorModel_1.Author.findOne({
+            where: { id: authorId },
+        });
         if (!author) {
             res.status(400).json({
                 message: "This Author are not valid first create a new Author",
             });
             return;
         }
-        const category = categoryModel_1.Category.findOne({ where: { id: categoryId } });
+        const category = categoryModel_1.Category.findOne({
+            where: { id: categoryId },
+        });
         if (!category) {
             res.status(400).json({
                 message: "This category are not valid first create a new Category",
             });
             return;
         }
-        const book = bookModel_1.Book.create({ title, isbn, price, authorId, categoryId });
+        const book = await bookModel_1.Book.create({
+            title,
+            isbn,
+            price,
+            authorId,
+            categoryId,
+        });
+        if (!book) {
+            res.status(400).json({
+                message: "Book not created",
+            });
+            return;
+        }
         res.status(201).json({ message: "Book created successfully", book });
     }
     catch (error) {
@@ -104,6 +120,12 @@ const updateBook = async (req, res) => {
             authorId,
             categoryId,
         });
+        if (!exports.updateBook) {
+            res.status(400).json({
+                message: "Book not updated",
+            });
+            return;
+        }
         res.status(201).json({ message: "Book created successfully", updateBook: exports.updateBook });
     }
     catch (error) {
