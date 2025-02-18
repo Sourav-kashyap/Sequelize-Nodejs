@@ -29,7 +29,6 @@ export const Book = sequelize.define(
         model: "Author",
         key: "id",
       },
-      onDelete: "CASCADE",
     },
     categoryId: {
       type: DataTypes.INTEGER,
@@ -38,7 +37,6 @@ export const Book = sequelize.define(
         model: "Category",
         key: "id",
       },
-      onDelete: "CASCADE",
     },
   },
   {

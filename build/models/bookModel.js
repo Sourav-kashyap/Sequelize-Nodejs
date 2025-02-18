@@ -29,7 +29,6 @@ exports.Book = db_1.sequelize.define("Book", {
             model: "Author",
             key: "id",
         },
-        onDelete: "CASCADE",
     },
     categoryId: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -38,7 +37,6 @@ exports.Book = db_1.sequelize.define("Book", {
             model: "Category",
             key: "id",
         },
-        onDelete: "CASCADE",
     },
 }, {
     freezeTableName: true,

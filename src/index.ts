@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 // import { Category } from "./models/categoryModel";
 
 import { dbConnect, sequelize } from "./db/db";
-
+import "./association/association";
 import bookRouter from "./routes/bookRoute";
 import authorRouter from "./routes/authorRoute";
 import categoryRouter from "./routes/categoryRoute";
@@ -32,7 +32,7 @@ app.get("/", (req: Request, res: Response) => {
 
 (async () => {
   await sequelize
-    .sync({ force: false })
+    .sync({ force: true })
     .then(() => console.log("Database synchronized successfully."))
     .catch((error) =>
       console.error("Error synchronizing the database:", error)

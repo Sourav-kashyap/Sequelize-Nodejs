@@ -9,6 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 // import { Author } from "./models/authorModel";
 // import { Category } from "./models/categoryModel";
 const db_1 = require("./db/db");
+require("./association/association");
 const bookRoute_1 = __importDefault(require("./routes/bookRoute"));
 const authorRoute_1 = __importDefault(require("./routes/authorRoute"));
 const categoryRoute_1 = __importDefault(require("./routes/categoryRoute"));
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
 // Category.sync();
 (async () => {
     await db_1.sequelize
-        .sync({ force: false })
+        .sync({ force: true })
         .then(() => console.log("Database synchronized successfully."))
         .catch((error) => console.error("Error synchronizing the database:", error));
 })();
