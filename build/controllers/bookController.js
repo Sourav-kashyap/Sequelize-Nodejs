@@ -1,9 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBook = exports.updateBook = exports.createBook = exports.getBookById = exports.getAllBooks = void 0;
+exports.streamAllBooks = exports.bulkAddBook = exports.deleteBook = exports.updateBook = exports.createBook = exports.getBookById = exports.getAllBooks = void 0;
 const bookModel_1 = require("../models/bookModel");
 const authorModel_1 = require("../models/authorModel");
 const categoryModel_1 = require("../models/categoryModel");
+const stream_1 = require("stream");
+const events_1 = __importDefault(require("events"));
+const eventEmitter = new events_1.default();
 const getAllBooks = async (req, res) => {
     try {
         const books = await bookModel_1.Book.findAll();
@@ -126,7 +132,7 @@ const updateBook = async (req, res) => {
             });
             return;
         }
-        res.status(201).json({ message: "Book created successfully", updateBook: exports.updateBook });
+        res.status(201).json({ message: "Book Updated successfully", updateBook: exports.updateBook });
     }
     catch (error) {
         res.status(500).json({ message: "Error while updating a Book", error });
@@ -154,3 +160,91 @@ const deleteBook = async (req, res) => {
     }
 };
 exports.deleteBook = deleteBook;
+/* Activity - 18 */
+const bulkAddBook = async (req, res) => {
+    try {
+        const booksArray = req.body;
+        if (!Array.isArray(booksArray)) {
+            return res
+                .status(400)
+                .json({ message: "Request body must be an array of books" });
+        }
+        const bookStream = stream_1.Readable.from(booksArray);
+        let successCount = 0;
+        let failedCount = 0;
+        const errors = [];
+        for await (const bookData of bookStream) {
+            try {
+                const book = await bookModel_1.Book.create(bookData);
+                eventEmitter.emit("bookCreated", book);
+                successCount++;
+            }
+            catch (err) {
+                failedCount++;
+                eventEmitter;
+                errors.push({ book: bookData.title, error: err });
+            }
+        }
+        return res.status(201).json({
+            message: "Bulk book upload processed",
+            successCount,
+            failedCount,
+            errors,
+        });
+    }
+    catch (error) {
+        console.error("Error in bulk upload from body:", error);
+    }
+};
+exports.bulkAddBook = bulkAddBook;
+const streamAllBooks = async (req, res) => {
+    try {
+        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Transfer-Encoding", "chunked");
+        res.write("[");
+        let offset = 0;
+        const limit = 1;
+        let hasMore = true;
+        let isFirstChunk = true;
+        while (hasMore) {
+            const books = await bookModel_1.Book.findAll({
+                offset,
+                limit,
+                attributes: [
+                    "bookId",
+                    "title",
+                    "isbn",
+                    "Author.name",
+                    "Category.name",
+                    "price",
+                ],
+                include: [
+                    { model: authorModel_1.Author, attributes: [] },
+                    { model: categoryModel_1.Category, attributes: [] },
+                ],
+                raw: true,
+            });
+            if (books.length === 0) {
+                hasMore = false;
+                break;
+            }
+            for (const book of books) {
+                console.log(book);
+                if (!isFirstChunk)
+                    res.write(",");
+                res.write(JSON.stringify(book));
+                isFirstChunk = false;
+            }
+            offset += limit;
+        }
+        res.write("]");
+        res.end();
+    }
+    catch (error) {
+        console.error("Error streaming books:", error);
+    }
+};
+exports.streamAllBooks = streamAllBooks;
+eventEmitter.on("bookCreated", (book) => {
+    console.log(`Book added: ${book.title}`);
+});
