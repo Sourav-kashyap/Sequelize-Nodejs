@@ -201,7 +201,7 @@ const streamAllBooks = async (req, res) => {
     try {
         res.setHeader("Content-Type", "application/x-javascript");
         res.setHeader("Transfer-Encoding", "chunked");
-        res.write("[");
+        res.write("[ \n");
         let offset = 0;
         const limit = 2;
         let hasMore = true;
@@ -230,7 +230,7 @@ const streamAllBooks = async (req, res) => {
             }
             for (const book of books) {
                 if (!isFirstChunk)
-                    res.write(",");
+                    res.write(", \n \n");
                 res.write(JSON.stringify(book));
                 isFirstChunk = false;
                 console.log("book ->", book);

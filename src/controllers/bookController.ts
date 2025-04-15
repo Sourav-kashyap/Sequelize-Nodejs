@@ -230,7 +230,7 @@ export const streamAllBooks = async (
   try {
     res.setHeader("Content-Type", "application/x-javascript");
     res.setHeader("Transfer-Encoding", "chunked");
-    res.write("[");
+    res.write("[ \n");
 
     let offset = 0;
     const limit = 2;
@@ -262,7 +262,7 @@ export const streamAllBooks = async (
       }
 
       for (const book of books) {
-        if (!isFirstChunk) res.write(",");
+        if (!isFirstChunk) res.write(", \n \n");
         res.write(JSON.stringify(book));
         isFirstChunk = false;
         console.log("book ->", book);
