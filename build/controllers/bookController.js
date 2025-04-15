@@ -199,7 +199,7 @@ const bulkAddBook = async (req, res) => {
 exports.bulkAddBook = bulkAddBook;
 const streamAllBooks = async (req, res) => {
     try {
-        res.setHeader("Content-Type", "application/json");
+        res.setHeader("Content-Type", "application/x-javascript");
         res.setHeader("Transfer-Encoding", "chunked");
         res.write("[");
         let offset = 0;
@@ -232,8 +232,9 @@ const streamAllBooks = async (req, res) => {
                 if (!isFirstChunk)
                     res.write(",");
                 res.write(JSON.stringify(book));
-                console.log("book ->", book);
                 isFirstChunk = false;
+                console.log("book ->", book);
+                await delay(1000);
             }
             offset += limit;
         }
@@ -248,3 +249,8 @@ exports.streamAllBooks = streamAllBooks;
 eventEmitter.on("bookCreated", (book) => {
     console.log(`Book added: ${book.title}`);
 });
+const delay = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+};

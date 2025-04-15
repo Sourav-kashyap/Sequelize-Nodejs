@@ -4,6 +4,7 @@ import { Author } from "../models/authorModel";
 import { Category } from "../models/categoryModel";
 import { Readable } from "stream";
 import EventEmitter from "events";
+import { resolve } from "path";
 const eventEmitter = new EventEmitter();
 
 export const getAllBooks = async (req: Request, res: Response) => {
@@ -227,7 +228,7 @@ export const streamAllBooks = async (
   res: Response
 ): Promise<any> => {
   try {
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "application/x-javascript");
     res.setHeader("Transfer-Encoding", "chunked");
     res.write("[");
 
@@ -263,8 +264,9 @@ export const streamAllBooks = async (
       for (const book of books) {
         if (!isFirstChunk) res.write(",");
         res.write(JSON.stringify(book));
-        console.log("book ->", book);
         isFirstChunk = false;
+        console.log("book ->", book);
+        await delay(1000);
       }
 
       offset += limit;
@@ -279,3 +281,9 @@ export const streamAllBooks = async (
 eventEmitter.on("bookCreated", (book) => {
   console.log(`Book added: ${book.title}`);
 });
+
+const delay = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
