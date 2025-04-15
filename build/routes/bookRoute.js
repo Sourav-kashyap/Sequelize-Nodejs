@@ -11,5 +11,7 @@ router.post("/createBook", bookController_1.createBook);
 router.get("/getBook/:id", bookController_1.getBookById);
 router.patch("/updateBook/:id", bookController_1.updateBook);
 router.delete("/deleteBook/:id", bookController_1.deleteBook);
+/* Activity - 18 */
 router.post("/blukBooks", bookController_1.bulkAddBook);
+router.get("/getBlukBooks", bookController_1.streamAllBooks);
 exports.default = router;

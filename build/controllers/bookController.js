@@ -203,7 +203,7 @@ const streamAllBooks = async (req, res) => {
         res.setHeader("Transfer-Encoding", "chunked");
         res.write("[");
         let offset = 0;
-        const limit = 1;
+        const limit = 2;
         let hasMore = true;
         let isFirstChunk = true;
         while (hasMore) {
@@ -211,7 +211,7 @@ const streamAllBooks = async (req, res) => {
                 offset,
                 limit,
                 attributes: [
-                    "bookId",
+                    "id",
                     "title",
                     "isbn",
                     "Author.name",
@@ -229,10 +229,10 @@ const streamAllBooks = async (req, res) => {
                 break;
             }
             for (const book of books) {
-                console.log(book);
                 if (!isFirstChunk)
                     res.write(",");
                 res.write(JSON.stringify(book));
+                console.log("book ->", book);
                 isFirstChunk = false;
             }
             offset += limit;

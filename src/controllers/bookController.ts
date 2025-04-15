@@ -230,16 +230,18 @@ export const streamAllBooks = async (
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Transfer-Encoding", "chunked");
     res.write("[");
+
     let offset = 0;
-    const limit = 1;
+    const limit = 2;
     let hasMore = true;
     let isFirstChunk = true;
+
     while (hasMore) {
       const books = await Book.findAll({
         offset,
         limit,
         attributes: [
-          "bookId",
+          "id",
           "title",
           "isbn",
           "Author.name",
@@ -259,9 +261,9 @@ export const streamAllBooks = async (
       }
 
       for (const book of books) {
-        console.log(book);
         if (!isFirstChunk) res.write(",");
         res.write(JSON.stringify(book));
+        console.log("book ->", book);
         isFirstChunk = false;
       }
 
